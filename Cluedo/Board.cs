@@ -39,6 +39,19 @@ namespace Cluedo
             Library,
             Lounge,
             Hall,
+            Study
+        };
+
+        private static readonly List<BoardPosition> RoomsAndPassages = new List<BoardPosition>
+        {
+            Kitchen,
+            BallRoom,
+            Conservatory,
+            DiningRoom,
+            BilliardRoom,
+            Library,
+            Lounge,
+            Hall,
             Study,
             KitchenStudyPassage,
             LoungeConservatoryPassage
@@ -127,7 +140,7 @@ OOOOOO R HHHHHH . SSSSSS
                         continue;
                     }
 
-                    if (Rooms.Contains(boardPosition))
+                    if (RoomsAndPassages.Contains(boardPosition))
                     {
                         continue;
                     }
@@ -154,7 +167,7 @@ OOOOOO R HHHHHH . SSSSSS
                         neighbours
                         .Where(n => n != Void)
                         .Where(n => n != boardPosition)
-                        .Where(n => !Rooms.Contains(n))
+                        .Where(n => !RoomsAndPassages.Contains(n))
                         .Where(n => !boardPosition.Neighbours.Contains(n))
                         .Distinct());
 

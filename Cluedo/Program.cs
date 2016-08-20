@@ -6,7 +6,8 @@ namespace Cluedo
     {
         public static void Main()
         {
-            var board = new Board();
+            var game = new Game(Player.ColonelMustard, Player.MrsPeacock, Player.ProfessorPlum);
+
             Console.ReadKey();
         }
     }
