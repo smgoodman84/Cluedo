@@ -17,25 +17,25 @@ namespace Cluedo
         }
 
         public List<BoardPosition> Neighbours = new List<BoardPosition>();
-        private readonly List<Player> _players = new List<Player>();
+        private readonly List<Character> _characters = new List<Character>();
         private readonly List<Weapon> _weapons = new List<Weapon>();
 
         public override string ToString()
         {
-            var items = _players.Select(x => x.ToString()).ToList();
+            var items = _characters.Select(x => x.ToString()).ToList();
             items.AddRange(_weapons.Select(x => x.ToString()));
 
             return $"{Name ?? "Unknown"} [{string.Join(",", items)}]";
         }
 
-        public void AddPlayer(Player player)
+        public void AddCharacter(Character character)
         {
-            _players.Add(player);
+            _characters.Add(character);
         }
 
-        public void RemovePlayer(Player player)
+        public void RemoveCharacter(Character character)
         {
-            _players.Remove(player);
+            _characters.Remove(character);
         }
 
         public void AddWeapon(Weapon weapon)

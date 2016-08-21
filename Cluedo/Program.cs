@@ -6,7 +6,7 @@ namespace Cluedo
     {
         public static void Main()
         {
-            var game = new Game(Player.ColonelMustard, Player.MrsPeacock, Player.ProfessorPlum);
+            var game = new Game(Character.ColonelMustard, Character.MrsPeacock, Character.ProfessorPlum);
 
             Console.ReadKey();
         }

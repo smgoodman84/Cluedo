@@ -6,26 +6,26 @@ namespace Cluedo
 {
     internal class Game
     {
-        private readonly List<Player> _activePlayers;
+        private readonly List<Character> _activeCharacters;
 
-        public Game(params Player[] players) : this(players.AsEnumerable())
+        public Game(params Character[] characters) : this(characters.AsEnumerable())
         {
         }
 
-        public Game(IEnumerable<Player> players)
+        public Game(IEnumerable<Character> characters)
         {
-            _activePlayers = players.ToList();
+            _activeCharacters = characters.ToList();
 
-            var inactivePlayers = Player.Players.Where(p => !_activePlayers.Contains(p)).ToList();
+            var inactiveCharacters = Character.Characters.Where(p => !_activeCharacters.Contains(p)).ToList();
 
             var random = new Random();
             var randomisedRooms = Board.Rooms.OrderBy(x => random.Next());
 
-            LockstepForeach(inactivePlayers, randomisedRooms, SetPlayerPosition);
+            LockstepForeach(inactiveCharacters, randomisedRooms, SetCharacterPosition);
             LockstepForeach(Weapon.Weapons, randomisedRooms, SetWeaponPosition);
         }
 
-        private static void SetPlayerPosition(Player p, BoardPosition bp)
+        private static void SetCharacterPosition(Character p, BoardPosition bp)
         {
             p.SetPosition(bp);
         }
