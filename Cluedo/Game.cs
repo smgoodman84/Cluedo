@@ -6,6 +6,10 @@ namespace Cluedo
 {
     internal class Game
     {
+        private readonly Weapon _murderWeapon;
+        private readonly Character _murderer;
+        private readonly Room _murderRoom;
+
         private readonly List<Character> _activeCharacters;
 
         public Game(params Character[] characters) : this(characters.AsEnumerable())
@@ -23,6 +27,10 @@ namespace Cluedo
 
             LockstepForeach(inactiveCharacters, randomisedRooms, SetCharacterPosition);
             LockstepForeach(Weapon.Weapons, randomisedRooms, SetWeaponPosition);
+
+            _murderWeapon = Weapon.Weapons.OrderBy(x => random.Next()).First();
+            _murderer = Character.Characters.OrderBy(x => random.Next()).First();
+            _murderRoom = Room.Rooms.OrderBy(x => random.Next()).First();
         }
 
         private static void SetCharacterPosition(Character p, BoardPosition bp)
