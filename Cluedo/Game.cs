@@ -10,7 +10,7 @@ namespace Cluedo
         private readonly Character _murderer;
         private readonly Room _murderRoom;
 
-        private readonly List<Character> _activeCharacters;
+        private readonly List<Player> _players;
 
         public Game(params Character[] characters) : this(characters.AsEnumerable())
         {
@@ -18,9 +18,10 @@ namespace Cluedo
 
         public Game(IEnumerable<Character> characters)
         {
-            _activeCharacters = characters.ToList();
+            var activeCharacters = characters.ToList();
 
-            var inactiveCharacters = Character.Characters.Where(p => !_activeCharacters.Contains(p)).ToList();
+            var inactiveCharacters = Character.Characters.Where(p => !activeCharacters.Contains(p)).ToList();
+            _players = activeCharacters.Select(c => new Player(c)).ToList();
 
             var random = new Random();
             var randomisedRooms = Room.Rooms.OrderBy(x => random.Next());
@@ -31,6 +32,21 @@ namespace Cluedo
             _murderWeapon = Weapon.Weapons.OrderBy(x => random.Next()).First();
             _murderer = Character.Characters.OrderBy(x => random.Next()).First();
             _murderRoom = Room.Rooms.OrderBy(x => random.Next()).First();
+
+            var cards = Weapon.Weapons.Where(x => x != _murderWeapon).Select(x => new Card(x)).ToList();
+            cards.AddRange(Character.Characters.Where(x => x != _murderer).Select(x => new Card(x)).ToList());
+            cards.AddRange(Room.Rooms.Where(x => x != _murderRoom).Select(x => new Card(x)).ToList());
+
+            var shuffledCards = cards.OrderBy(x => random.Next()).ToList();
+
+            for (var playerIndex = 0; playerIndex < _players.Count; playerIndex++)
+            {
+                var playercards = shuffledCards
+                    .Where((x, i) => i%_players.Count == playerIndex)
+                    .ToList();
+
+                _players[playerIndex].SetCards(playercards);
+            }
         }
 
         private static void SetCharacterPosition(Character p, BoardPosition bp)
