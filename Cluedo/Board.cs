@@ -16,43 +16,21 @@ namespace Cluedo
         public static readonly BoardPosition ColonelMustardStart = new BoardPosition("ColonelMustardStart");
         public static readonly BoardPosition MrsWhiteStart = new BoardPosition("MrsWhiteStart");
 
-        public static readonly BoardPosition Kitchen = new BoardPosition("Kitchen");
-        public static readonly BoardPosition BallRoom = new BoardPosition("BallRoom");
-        public static readonly BoardPosition Conservatory = new BoardPosition("Conservatory");
-        public static readonly BoardPosition DiningRoom = new BoardPosition("DiningRoom");
-        public static readonly BoardPosition BilliardRoom = new BoardPosition("BilliardRoom");
-        public static readonly BoardPosition Library = new BoardPosition("Library");
-        public static readonly BoardPosition Lounge = new BoardPosition("Lounge");
-        public static readonly BoardPosition Hall = new BoardPosition("Hall");
-        public static readonly BoardPosition Study = new BoardPosition("Study");
-
         public static readonly BoardPosition KitchenStudyPassage = new BoardPosition("KitchenStudyPassage");
         public static readonly BoardPosition LoungeConservatoryPassage = new BoardPosition("LoungeConservatoryPassage");
 
-        public static readonly List<BoardPosition> Rooms = new List<BoardPosition>
-        {
-            Kitchen,
-            BallRoom,
-            Conservatory,
-            DiningRoom,
-            BilliardRoom,
-            Library,
-            Lounge,
-            Hall,
-            Study
-        };
 
         private static readonly List<BoardPosition> RoomsAndPassages = new List<BoardPosition>
         {
-            Kitchen,
-            BallRoom,
-            Conservatory,
-            DiningRoom,
-            BilliardRoom,
-            Library,
-            Lounge,
-            Hall,
-            Study,
+            Room.Kitchen,
+            Room.BallRoom,
+            Room.Conservatory,
+            Room.DiningRoom,
+            Room.BilliardRoom,
+            Room.Library,
+            Room.Lounge,
+            Room.Hall,
+            Room.Study,
             KitchenStudyPassage,
             LoungeConservatoryPassage
         };
@@ -89,20 +67,20 @@ OOOOOO R HHHHHH . SSSSSS
         {
             switch (layoutCharacter)
             {
-                case 'A': return BallRoom;
-                case 'B': return BilliardRoom;
-                case 'C': return Conservatory;
-                case 'D': return DiningRoom;
+                case 'A': return Room.BallRoom;
+                case 'B': return Room.BilliardRoom;
+                case 'C': return Room.Conservatory;
+                case 'D': return Room.DiningRoom;
                 case 'E': return MrsPeacockStart;
                 case 'G': return ReverendGreenStart;
-                case 'H': return Hall;
-                case 'K': return Kitchen;
-                case 'L': return Library;
+                case 'H': return Room.Hall;
+                case 'K': return Room.Kitchen;
+                case 'L': return Room.Library;
                 case 'M': return ColonelMustardStart;
-                case 'O': return Lounge;
+                case 'O': return Room.Lounge;
                 case 'P': return ProfessorPlumStart;
                 case 'R': return MissScarletStart;
-                case 'S': return Study;
+                case 'S': return Room.Study;
                 case 'T': return KitchenStudyPassage;
                 case 'U': return LoungeConservatoryPassage;
                 case 'W': return MrsWhiteStart;

@@ -19,7 +19,7 @@ namespace Cluedo
             var inactiveCharacters = Character.Characters.Where(p => !_activeCharacters.Contains(p)).ToList();
 
             var random = new Random();
-            var randomisedRooms = Board.Rooms.OrderBy(x => random.Next());
+            var randomisedRooms = Room.Rooms.OrderBy(x => random.Next());
 
             LockstepForeach(inactiveCharacters, randomisedRooms, SetCharacterPosition);
             LockstepForeach(Weapon.Weapons, randomisedRooms, SetWeaponPosition);
