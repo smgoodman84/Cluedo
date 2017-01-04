@@ -6,11 +6,12 @@ namespace Cluedo
 {
     internal class Game
     {
-        private readonly Weapon _murderWeapon;
-        private readonly Character _murderer;
-        private readonly Room _murderRoom;
+        private Weapon _murderWeapon;
+        private Character _murderer;
+        private Room _murderRoom;
 
         private readonly List<Player> _players;
+        private readonly Random _random;
 
         public Game(params Character[] characters) : this(characters.AsEnumerable())
         {
@@ -18,26 +19,33 @@ namespace Cluedo
 
         public Game(IEnumerable<Character> characters)
         {
-            var activeCharacters = characters.ToList();
+            _random = new Random();
 
-            var inactiveCharacters = Character.Characters.Where(p => !activeCharacters.Contains(p)).ToList();
+            var activeCharacters = characters.ToList();
             _players = activeCharacters.Select(c => new Player(c)).ToList();
 
-            var random = new Random();
-            var randomisedRooms = Room.Rooms.OrderBy(x => random.Next());
+            var inactiveCharacters = Character.Characters.Where(p => !activeCharacters.Contains(p)).ToList();
+            PositionItems(inactiveCharacters);
+
+            SelectMurderScenario();
+            DealCardsToPlayers();
+        }
+
+        private void PositionItems(List<Character> inactiveCharacters)
+        {
+            var randomisedRooms = Room.Rooms.OrderBy(x => _random.Next());
 
             LockstepForeach(inactiveCharacters, randomisedRooms, SetCharacterPosition);
             LockstepForeach(Weapon.Weapons, randomisedRooms, SetWeaponPosition);
+        }
 
-            _murderWeapon = Weapon.Weapons.OrderBy(x => random.Next()).First();
-            _murderer = Character.Characters.OrderBy(x => random.Next()).First();
-            _murderRoom = Room.Rooms.OrderBy(x => random.Next()).First();
-
+        private void DealCardsToPlayers()
+        {
             var cards = Weapon.Weapons.Where(x => x != _murderWeapon).Select(x => new Card(x)).ToList();
             cards.AddRange(Character.Characters.Where(x => x != _murderer).Select(x => new Card(x)).ToList());
             cards.AddRange(Room.Rooms.Where(x => x != _murderRoom).Select(x => new Card(x)).ToList());
 
-            var shuffledCards = cards.OrderBy(x => random.Next()).ToList();
+            var shuffledCards = cards.OrderBy(x => _random.Next()).ToList();
 
             for (var playerIndex = 0; playerIndex < _players.Count; playerIndex++)
             {
@@ -47,6 +55,13 @@ namespace Cluedo
 
                 _players[playerIndex].SetCards(playercards);
             }
+        }
+
+        private void SelectMurderScenario()
+        {
+            _murderWeapon = Weapon.Weapons.OrderBy(x => _random.Next()).First();
+            _murderer = Character.Characters.OrderBy(x => _random.Next()).First();
+            _murderRoom = Room.Rooms.OrderBy(x => _random.Next()).First();
         }
 
         private static void SetCharacterPosition(Character p, BoardPosition bp)
